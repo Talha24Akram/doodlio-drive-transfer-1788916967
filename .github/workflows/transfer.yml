@@ -3,13 +3,11 @@ on:
   workflow_dispatch:
 jobs:
   transfer:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, doodlio-transfer]
     steps:
-      - name: Download final Doodlio POC
+      - name: Stage final Doodlio POC
         run: |
-          curl -L --fail --retry 4 --retry-delay 2 \
-            'https://packs-ultram-ownership-sound.trycloudflare.com/doodlio-poc-defense-final.mp4' \
-            -o doodlio-poc-defense-final.mp4
+          cp /home/talha/AI/motion-doodle-studio/demo/doodlio-poc-defense-final.mp4 ./doodlio-poc-defense-final.mp4
           test "$(stat -c %s doodlio-poc-defense-final.mp4)" -eq 3175867
       - name: Upload transfer artifact
         uses: actions/upload-artifact@v4
