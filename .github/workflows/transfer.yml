@@ -1,0 +1,20 @@
+name: Doodlio Drive Transfer
+on:
+  workflow_dispatch:
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download final Doodlio POC
+        run: |
+          curl -L --fail --retry 4 --retry-delay 2 \
+            'https://packs-ultram-ownership-sound.trycloudflare.com/doodlio-poc-defense-final.mp4' \
+            -o doodlio-poc-defense-final.mp4
+          test "$(stat -c %s doodlio-poc-defense-final.mp4)" -eq 3175867
+      - name: Upload transfer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doodlio-poc-defense-final
+          path: doodlio-poc-defense-final.mp4
+          compression-level: 0
+          retention-days: 1
